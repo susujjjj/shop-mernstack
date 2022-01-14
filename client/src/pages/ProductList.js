@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Announcement from '../components/Announcement';
@@ -44,6 +44,17 @@ const ProductList = () => {
   const cat = location.pathname.split("/")[2]
   const [filter, setFilters] = useState({})
 
+  const handleFilters =  (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filter,
+      [e.target.name] : value,
+    });
+  };
+
+  console.log(filter); // {} 로나오는데 , 여기서 filter Product, 색상 black선택하면 {color: 'Black'} 이라고 나온다.
+
+
   return (
     <Container>
       <Navbar />
@@ -61,7 +72,7 @@ const ProductList = () => {
             <Option>Yellow</Option>
             <Option>Green</Option>
           </Select>
-          <Select name="color"onChange={handleFilters}>
+          <Select name="size"onChange={handleFilters}>
             <Option disabled>Size</Option>
             <Option>XS</Option>
             <Option>S</Option>
@@ -72,8 +83,8 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Sort Products: </FilterText>
-          <Select>
-            <Option selected>Newest</Option>
+          <Select onChange={(e) => setSort(e.target.value)}>
+            <Option>Newest</Option>
             <Option>Price (asc)</Option>
             <Option>Price (desc)</Option>
           </Select>
