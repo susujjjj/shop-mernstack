@@ -8,10 +8,9 @@ const {
 const router = require("express").Router();
 
 //CREATE
-
 router.post("/", verifyToken, async (req, res) => {
   const newCart = new Cart(req.body);
-
+ 
   try {
     const savedCart = await newCart.save();
     res.status(200).json(savedCart);
@@ -49,22 +48,22 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 //GET USER CART
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
   try {
-    const cart = await Cart.findOne({ userId: req.params.userId });
+    const cart = await Cart.findOne({ userId: req.params.userId }); //  every user has one cart so .. Cart.findOne
     res.status(200).json(cart);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// //GET ALL
+//GET ALL
 
-router.get("/", verifyTokenAndAdmin, async (req, res) => {
-  try {
-    const carts = await Cart.find();
-    res.status(200).json(carts);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+router.get("/", verifyTokenAndAdmin, async(req, res) => {
+    try {
+        const carts = await Cart.find()
+        res.status(200).json(carts)
+    } catch(err) {
+        res.status(500).json(err);
+    }
 });
 
-module.exports = router;
+module.exports = router; 
